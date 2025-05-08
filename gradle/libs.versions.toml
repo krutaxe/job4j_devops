@@ -2,11 +2,17 @@
 assertj = "3.24.2"
 lombok = "1.18.36"
 junit-jupiter = "5.10.0"
+springBoot = "3.2.0"
+commonsLang = "3.12.0"
 
 [libraries]
-assertj = {module = "org.assertj:assertj-core", version.ref = "assertj"}
-lombok = {module = "org.projectlombok:lombok", version.ref = "lombok"}
-springBootStarterWeb = {module = "org.springframework.boot:spring-boot-starter-web"}
-springBootStarterTest = {module = "org.springframework.boot:spring-boot-starter-test"}
+assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+springBootStarterWeb = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBoot" }
+springBootStarterTest = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
+junitJupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+commonsLang = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLang" }
 junitPlatform = {module = "org.junit.platform:junit-platform-launcher"}
-junitJupiter = {module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter"}
+
+[plugins]
+springBoot = { id = "org.springframework.boot", version = "3.2.0" }
