@@ -12,4 +12,8 @@
     <include file="changeset/002_ddl_alter_table_add_columns.sql"
              author="Nikolaev Dmitriy"
              relativeToChangelogFile="true"/>
+
+    <include file="changeset/003_ddl_alter_add_user_update_date.sql"
+             author="Nikolaev Dmitriy"
+             relativeToChangelogFile="true"/>
 </databaseChangeLog>
