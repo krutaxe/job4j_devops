@@ -16,4 +16,8 @@
     <include file="changeset/003_ddl_alter_add_user_update_date.sql"
              author="Nikolaev Dmitriy"
              relativeToChangelogFile="true"/>
+
+    <include file="changeset/004_ddl_create_calc_events_table.sql"
+             author="Nikolaev Dmitriy"
+             relativeToChangelogFile="true"/>
 </databaseChangeLog>
