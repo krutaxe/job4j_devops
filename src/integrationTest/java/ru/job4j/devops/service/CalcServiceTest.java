@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
+import ru.job4j.devops.fixtures.TestContainerPostgresqlConfig;
+import ru.job4j.devops.fixtures.entity.UserUtil;
 import ru.job4j.devops.models.User;
 import ru.job4j.devops.repository.CalcEventsRepository;
 
@@ -21,6 +23,8 @@ public class CalcServiceTest {
             "postgres:16-alpine"
     ).withReuse(true);
 
+    private static final User USER = UserUtil.validEntity();
+
     @Autowired
     private CalcService calcService;
 
@@ -29,9 +33,7 @@ public class CalcServiceTest {
 
     @DynamicPropertySource
     public static void configureProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
-        registry.add("spring.datasource.username", POSTGRES::getUsername);
-        registry.add("spring.datasource.password", POSTGRES::getPassword);
+        TestContainerPostgresqlConfig.configureProperties(registry, POSTGRES);
     }
 
     @BeforeAll
@@ -46,9 +48,9 @@ public class CalcServiceTest {
 
     @Test
     public void whenAddCalcEvent() {
-        User user = new User(1, "Job4j");
-        calcService.add(user, 3, 5);
-        var foundCalcEvent = calcEventsRepository.findById(user.getId());
+        USER.setId(1);
+        calcService.add(USER, 3, 5);
+        var foundCalcEvent = calcEventsRepository.findById(USER.getId());
         assertThat(foundCalcEvent).isPresent();
         assertThat(foundCalcEvent.get().getResult().equals(8));
     }

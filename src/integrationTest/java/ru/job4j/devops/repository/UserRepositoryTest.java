@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
+import ru.job4j.devops.fixtures.TestContainerPostgresqlConfig;
+import ru.job4j.devops.fixtures.entity.UserUtil;
 import ru.job4j.devops.models.User;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,14 +20,14 @@ class UserRepositoryTest {
             "postgres:16-alpine"
     ).withReuse(true);
 
+    private static final User USER = UserUtil.validEntity();
+
     @Autowired
     private UserRepository userRepository;
 
     @DynamicPropertySource
     public static void configureProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
-        registry.add("spring.datasource.username", POSTGRES::getUsername);
-        registry.add("spring.datasource.password", POSTGRES::getPassword);
+        TestContainerPostgresqlConfig.configureProperties(registry, POSTGRES);
     }
 
     @BeforeAll
@@ -40,10 +42,8 @@ class UserRepositoryTest {
 
     @Test
     public void whenSaveUser() {
-        var user = new User();
-        user.setUsername("Job4j");
-        userRepository.save(user);
-        var foundUser = userRepository.findById(user.getId());
+        userRepository.save(USER);
+        var foundUser = userRepository.findById(USER.getId());
         assertThat(foundUser).isPresent();
         assertThat(foundUser.get().getUsername()).isEqualTo("Job4j");
     }
