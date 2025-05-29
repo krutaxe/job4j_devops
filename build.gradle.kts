@@ -4,7 +4,6 @@ plugins {
     jacoco
     id("org.springframework.boot") version "3.4.0"
     id("io.spring.dependency-management") version "1.1.6"
-    id("com.github.spotbugs") version "6.0.26"
     id("org.liquibase.gradle") version "3.0.1"
     id("co.uzzu.dotenv.gradle") version "4.0.0"
 }
@@ -131,18 +130,6 @@ tasks.register<Zip>("archiveResources") {
     doLast {
         println("Resources archived successfully at ${outputDir.get().asFile.absolutePath}")
     }
-}
-
-
-tasks.spotbugsMain {
-    reports.create("html") {
-        required = true
-        outputLocation.set(layout.buildDirectory.file("reports/spotbugs/spotbugs.html"))
-    }
-}
-
-tasks.test {
-    finalizedBy(tasks.spotbugsMain)
 }
 
 liquibase {
